@@ -82,11 +82,11 @@ Sessions have finite context. Heavy operations consume it fast.
 **Completeness gates (PreToolUse Write|Edit — hard blocks):**
 - **knowledge-base.md**: Every entry needs `[Source:]` provenance, max 200 lines, no TBD/TODO
 - **memory.md**: Max 100 lines (Write only)
-- **settings.json**: Must be valid JSON (broken JSON breaks all hooks)
-- **Agent defs** (`.agents/agents/*.md`): No TBD/TODO — instructions must be definitive
+- **kimi-config.toml**: Must be valid TOML (broken config breaks all hooks once merged into `~/.local/share/kimi/config.toml`)
+- **Agent defs** (`.agents/agents/*/system.md`): No TBD/TODO — instructions must be definitive
 - **Ungated** (iterative by nature): Daily Notes, Scratchpad, Templates, Logs, Commands, Skills
 
-**Self-monitoring (soft signals — Claude's responsibility):**
+**Self-monitoring (soft signals — the agent's responsibility):**
 - After ~30+ tool calls or 3+ large file reads: run `/clear` proactively
 - If you see a "compacting conversation" warning: run `/clear` immediately
 - If output quality degrades (repetition, missed details): run `/clear`

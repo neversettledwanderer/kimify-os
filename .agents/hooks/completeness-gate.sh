@@ -8,7 +8,7 @@ PROJECT_DIR="${KIMI_PROJECT_DIR:-${CLAUDE_PROJECT_DIR:-$(pwd)}}"
 #
 # Philosophy: Only gate files where an incomplete write causes persistent damage.
 # Daily notes, scratchpad, logs, templates = ungated (iterative by nature).
-# Knowledge-base, settings, memory = gated (errors persist/cascade).
+# Knowledge-base, config, memory = gated (errors persist/cascade).
 
 INPUT=$(cat)
 FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
@@ -163,21 +163,34 @@ case "$RELATIVE_PATH" in
     fi
     ;;
 
-  # ─── SETTINGS.JSON ─────────────────────────────────
-  # Hook configuration. Broken JSON = all hooks break.
-  # Rules: must be valid JSON.
-  ".agents/settings.json")
+  # ─── KIMI-CONFIG.TOML ──────────────────────────────
+  # Hook configuration. Broken TOML = all hooks break.
+  # Rules: must be valid TOML (validated via python3 tomllib).
+  "kimi-config.toml")
     if [ "$TOOL" = "Write" ]; then
-      if ! echo "$CONTENT" | jq empty 2>/dev/null; then
-        block_high "$RELATIVE_PATH" "settings.json would be invalid JSON. Syntax error will break ALL hooks." "Validate JSON syntax: check for trailing commas, missing quotes, unmatched braces. Use Edit instead of Write to make targeted changes."
+      if ! echo "$CONTENT" | python3 -c "import sys
+try:
+    import tomllib
+except ImportError:
+    import tomli as tomllib
+tomllib.loads(sys.stdin.read())" 2>/dev/null; then
+        block_high "$RELATIVE_PATH" "kimi-config.toml would be invalid TOML. Syntax error will break ALL hooks once merged into ~/.local/share/kimi/config.toml." "Validate TOML syntax: check array-of-tables brackets ([[hooks]]), string quoting, and newline separation between entries. Use Edit instead of Write to make targeted changes."
       fi
     fi
     ;;
 
-  # ─── AGENT DEFINITIONS ──────────────────────────────
+  # ─── AGENT DEFINITIONS (system.md) ──────────────────
   # Agent instructions. Must be definitive, not speculative.
   # Rules: no TBD/TODO.
-  .agents/agents/*.md)
+  .agents/agents/*/system.md)
+    check_incomplete_markers "$CONTENT" "$RELATIVE_PATH"
+    ;;
+
+  # ─── AGENT DEFINITIONS (agent.yaml) ─────────────────
+  # Agent spec. Same TBD/TODO rule applies — comments and
+  # descriptions must be definitive. Structural YAML validity
+  # is enforced by Kimi itself at agent-load time.
+  .agents/agents/*/agent.yaml)
     check_incomplete_markers "$CONTENT" "$RELATIVE_PATH"
     ;;
 
