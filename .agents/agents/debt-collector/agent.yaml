@@ -1,0 +1,21 @@
+# Generated from claudify .claude/agents/debt-collector.md
+# Claudify original metadata (for reference; not used by Kimi):
+# claudify_original:
+#   model: sonnet
+#   memory: project
+#   maxTurns: 10
+#   scoped_tools: []
+version: 1
+agent:
+  name: debt-collector
+  system_prompt_path: ./system.md
+  when_to_use: Technical debt tracker and prioritizer. Scans codebase for TODOs, hacks,
+    deprecated patterns, and quality issues. Maintains a ranked debt inventory with
+    effort estimates and impact scores. Knows when to pay debt and when to let it
+    ride.
+  tools:
+  - kimi_cli.tools.file:ReadFile
+  - kimi_cli.tools.file:Grep
+  - kimi_cli.tools.file:Glob
+  - kimi_cli.tools.file:WriteFile
+  model: kimi-k2

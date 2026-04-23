@@ -1,0 +1,21 @@
+# Generated from claudify .claude/agents/onboarding-sherpa.md
+# Claudify original metadata (for reference; not used by Kimi):
+# claudify_original:
+#   model: sonnet
+#   memory: project
+#   maxTurns: 12
+#   scoped_tools:
+#   - Bash(git:*,wc:*,find:*)
+version: 1
+agent:
+  name: onboarding-sherpa
+  system_prompt_path: ./system.md
+  when_to_use: Codebase tour guide. When you join a new project or return after time
+    away, the sherpa maps the architecture, identifies key patterns, documents tribal
+    knowledge, and creates a mental model you can work from immediately.
+  tools:
+  - kimi_cli.tools.file:ReadFile
+  - kimi_cli.tools.file:Grep
+  - kimi_cli.tools.file:Glob
+  - kimi_cli.tools.shell:Shell
+  model: kimi-k2

@@ -1,0 +1,21 @@
+# Generated from claudify .claude/agents/pr-ghostwriter.md
+# Claudify original metadata (for reference; not used by Kimi):
+# claudify_original:
+#   model: sonnet
+#   memory: none
+#   maxTurns: 8
+#   scoped_tools:
+#   - Bash(git:*)
+version: 1
+agent:
+  name: pr-ghostwriter
+  system_prompt_path: ./system.md
+  when_to_use: "Writes PR descriptions, commit messages, and changelogs from diffs.\
+    \ Reads the actual code changes, understands intent, and produces review-ready\
+    \ documentation. Never generic \u2014 always specific to the change."
+  tools:
+  - kimi_cli.tools.file:ReadFile
+  - kimi_cli.tools.file:Grep
+  - kimi_cli.tools.file:Glob
+  - kimi_cli.tools.shell:Shell
+  model: kimi-k2

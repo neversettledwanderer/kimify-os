@@ -1,0 +1,58 @@
+# Kimify root agent — the top-level spec users launch with.
+# Launch: `kimi --agent .agents/kimify/agent.yaml`
+# (or wire it as the default in ~/.local/share/kimi/config.toml)
+version: 1
+
+agent:
+  name: kimify
+  system_prompt_path: ./system.md
+  when_to_use: >
+    Default Kimify agent. Opinionated operating system for knowledge work —
+    memory, rituals, quality gates, and 9 specialist subagents.
+  tools:
+    - kimi_cli.tools.agent:Agent
+    - kimi_cli.tools.ask_user:AskUserQuestion
+    - kimi_cli.tools.todo:SetTodoList
+    - kimi_cli.tools.shell:Shell
+    - kimi_cli.tools.background:TaskList
+    - kimi_cli.tools.background:TaskOutput
+    - kimi_cli.tools.background:TaskStop
+    - kimi_cli.tools.file:ReadFile
+    - kimi_cli.tools.file:ReadMediaFile
+    - kimi_cli.tools.file:Glob
+    - kimi_cli.tools.file:Grep
+    - kimi_cli.tools.file:WriteFile
+    - kimi_cli.tools.file:StrReplaceFile
+    - kimi_cli.tools.web:SearchWeb
+    - kimi_cli.tools.web:FetchURL
+    - kimi_cli.tools.plan:ExitPlanMode
+    - kimi_cli.tools.plan.enter:EnterPlanMode
+
+  subagents:
+    archaeologist:
+      path: ../agents/archaeologist/agent.yaml
+      description: Code history investigator — answers "why was this written this way?" using git history, blame, and commit messages.
+    auditor:
+      path: ../agents/auditor/agent.yaml
+      description: Self-improving quality gate. Reviews output for contradictions, regressions, and systemic gaps. Proposes SOP revisions.
+    debt-collector:
+      path: ../agents/debt-collector/agent.yaml
+      description: Technical debt tracker — scans for TODOs, hacks, deprecated patterns. Maintains a ranked inventory with effort and impact.
+    error-whisperer:
+      path: ../agents/error-whisperer/agent.yaml
+      description: Error message interpreter — translates cryptic errors into plain English with copy-paste fixes.
+    onboarding-sherpa:
+      path: ../agents/onboarding-sherpa/agent.yaml
+      description: Codebase tour guide — maps architecture, identifies patterns, documents tribal knowledge for fast onboarding.
+    pr-ghostwriter:
+      path: ../agents/pr-ghostwriter/agent.yaml
+      description: Writes PR descriptions, commit messages, and changelogs from diffs. Specific, review-ready docs.
+    rubber-duck:
+      path: ../agents/rubber-duck/agent.yaml
+      description: Socratic thinking partner — asks precise questions to surface hidden assumptions and clarify requirements.
+    unsticker:
+      path: ../agents/unsticker/agent.yaml
+      description: Root-cause analyst — diagnoses why work is stuck and prescribes the fastest unblocking path.
+    yak-shave-detector:
+      path: ../agents/yak-shave-detector/agent.yaml
+      description: Scope creep monitor — catches drift from the original goal. Blunt, fast sanity check.

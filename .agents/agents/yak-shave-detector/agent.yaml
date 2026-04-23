@@ -1,0 +1,18 @@
+# Generated from claudify .claude/agents/yak-shave-detector.md
+# Claudify original metadata (for reference; not used by Kimi):
+# claudify_original:
+#   model: haiku
+#   memory: none
+#   maxTurns: 4
+#   scoped_tools: []
+version: 1
+agent:
+  name: yak-shave-detector
+  system_prompt_path: ./system.md
+  when_to_use: 'Catches you before you go down a rabbit hole. Monitors task scope
+    and detects when you''ve drifted from the original goal. Asks the uncomfortable
+    question: "Is this actually necessary, or are you yak shaving?"'
+  tools:
+  - kimi_cli.tools.file:ReadFile
+  - kimi_cli.tools.file:Glob
+  model: kimi-k2-turbo

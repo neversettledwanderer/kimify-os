@@ -1,0 +1,18 @@
+# Generated from claudify .claude/agents/rubber-duck.md
+# Claudify original metadata (for reference; not used by Kimi):
+# claudify_original:
+#   model: sonnet
+#   memory: none
+#   maxTurns: 6
+#   scoped_tools: []
+version: 1
+agent:
+  name: rubber-duck
+  system_prompt_path: ./system.md
+  when_to_use: "Thinking partner for complex decisions. Doesn't give answers \u2014\
+    \ asks the questions that reveal the answer. Uses Socratic method to surface hidden\
+    \ assumptions, clarify requirements, and stress-test plans before execution."
+  tools:
+  - kimi_cli.tools.file:ReadFile
+  - kimi_cli.tools.file:Glob
+  model: kimi-k2

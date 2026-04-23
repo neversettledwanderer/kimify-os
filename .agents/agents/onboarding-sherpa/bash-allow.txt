@@ -1,0 +1,4 @@
+# Restored from claudify Bash(git:*,wc:*,find:*) scoping
+^git( |$)
+^wc( |$)
+^find( |$)

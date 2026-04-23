@@ -1,0 +1,21 @@
+# Kimify runtime state — excluded from version control
+.agents/logs/
+.agents/backups/
+.agents/memory.md
+.agents/knowledge-nominations.md
+Daily Notes/
+
+# OS / editor droppings
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+venv/

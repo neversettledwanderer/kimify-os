@@ -1,0 +1,20 @@
+# Generated from claudify .claude/agents/error-whisperer.md
+# Claudify original metadata (for reference; not used by Kimi):
+# claudify_original:
+#   model: sonnet
+#   memory: project
+#   maxTurns: 8
+#   scoped_tools: []
+version: 1
+agent:
+  name: error-whisperer
+  system_prompt_path: ./system.md
+  when_to_use: Error message interpreter and fix generator. Translates cryptic errors
+    into plain English, identifies root causes, and provides copy-paste fixes. Specializes
+    in stack traces, build errors, and dependency conflicts.
+  tools:
+  - kimi_cli.tools.file:ReadFile
+  - kimi_cli.tools.file:Grep
+  - kimi_cli.tools.file:Glob
+  - kimi_cli.tools.web:SearchWeb
+  model: kimi-k2

@@ -1,0 +1,21 @@
+# Generated from claudify .claude/agents/archaeologist.md
+# Claudify original metadata (for reference; not used by Kimi):
+# claudify_original:
+#   model: sonnet
+#   memory: none
+#   maxTurns: 10
+#   scoped_tools:
+#   - Bash(git:*)
+version: 1
+agent:
+  name: archaeologist
+  system_prompt_path: ./system.md
+  when_to_use: Code history investigator. Answers "why was this written this way?"
+    by digging through git history, blame, related issues, and commit messages. Reconstructs
+    the decision context that led to the current code.
+  tools:
+  - kimi_cli.tools.file:ReadFile
+  - kimi_cli.tools.file:Grep
+  - kimi_cli.tools.file:Glob
+  - kimi_cli.tools.shell:Shell
+  model: kimi-k2

@@ -1,0 +1,24 @@
+# Generated from claudify .claude/agents/auditor.md
+# Claudify original metadata (for reference; not used by Kimi):
+# claudify_original:
+#   model: sonnet
+#   memory: project
+#   maxTurns: 10
+#   scoped_tools:
+#   - Bash(date:*)
+version: 1
+agent:
+  name: auditor
+  system_prompt_path: ./system.md
+  when_to_use: Self-improving quality gate. Invoked automatically via Stop hook and
+    manually via /audit. Reviews all agent output for contradictions, regressions,
+    SOP violations, and systemic gaps. Updates its own memory with patterns. Proposes
+    SOP revisions when recurring issues detected.
+  tools:
+  - kimi_cli.tools.file:ReadFile
+  - kimi_cli.tools.file:Glob
+  - kimi_cli.tools.file:Grep
+  - kimi_cli.tools.file:StrReplaceFile
+  - kimi_cli.tools.file:WriteFile
+  - kimi_cli.tools.shell:Shell
+  model: kimi-k2

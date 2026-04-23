@@ -1,0 +1,21 @@
+# Generated from claudify .claude/agents/unsticker.md
+# Claudify original metadata (for reference; not used by Kimi):
+# claudify_original:
+#   model: sonnet
+#   memory: project
+#   maxTurns: 8
+#   scoped_tools: []
+version: 1
+agent:
+  name: unsticker
+  system_prompt_path: ./system.md
+  when_to_use: Root-cause analyst and lateral thinker. When you're stuck on a problem,
+    the unsticker breaks down blocks, identifies what you're missing, and suggests
+    fresh approaches. Thinks in first principles. Prefers the simplest unblocking
+    path.
+  tools:
+  - kimi_cli.tools.file:ReadFile
+  - kimi_cli.tools.file:Grep
+  - kimi_cli.tools.file:Glob
+  - kimi_cli.tools.web:SearchWeb
+  model: kimi-k2

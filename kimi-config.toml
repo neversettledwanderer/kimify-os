@@ -1,0 +1,89 @@
+# Kimify hooks — merge this block into ~/.local/share/kimi/config.toml
+#
+# Every hook receives event JSON on stdin (same contract as Claude Code).
+# Hooks inherit the process working directory; they look up the project root
+# via $KIMI_PROJECT_DIR, falling back to $CLAUDE_PROJECT_DIR and then $(pwd).
+#
+# Event mapping from Claudify (Claude Code) to Kimify (Kimi CLI):
+#   PreToolUse(Bash)                → PreToolUse, matcher="^Bash$"
+#   PreToolUse(Write|Edit|Notebook) → PreToolUse, matcher="^(Write|Edit|NotebookEdit)$"
+#   PostToolUse(Write|Edit|Notebook)→ PostToolUse, matcher=same
+#   PostToolUseFailure(*)           → PostToolUseFailure (no matcher = matches all)
+#   PreCompact(auto)                → PreCompact
+#   SessionStart(user)              → SessionStart
+#   SessionStart(compact)           → PostCompact
+#   Stop (Haiku prompt + shell)     → Stop (shell only; see NOTE below)
+#
+# NOTE: Kimi's HookDef is shell-command-only. Claude Code's "prompt"-type Stop
+# hook (which asked Haiku for a JSON verdict) has no direct equivalent.
+# Kimify restores the verdict via .agents/hooks/ai-verdict.py — a Python
+# wrapper around kimi-agent-sdk that returns strict JSON and pipes into
+# log-stop-verdict.sh. Requires `pip install kimi-agent-sdk` and a Kimi login.
+# If the SDK isn't installed, the verdict hook fails open with a neutral
+# payload so the logger still writes a row.
+
+[[hooks]]
+event = "PreToolUse"
+matcher = "^Bash$"
+command = "\"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/guard-bash.sh\""
+timeout = 30
+
+[[hooks]]
+event = "PreToolUse"
+matcher = "^(Write|Edit|NotebookEdit)$"
+command = "\"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/backup-before-write.sh\""
+timeout = 30
+
+[[hooks]]
+event = "PreToolUse"
+matcher = "^(Write|Edit|NotebookEdit)$"
+command = "\"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/completeness-gate.sh\""
+timeout = 30
+
+[[hooks]]
+event = "PostToolUse"
+matcher = "^(Write|Edit|NotebookEdit)$"
+command = "\"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/log-changes.sh\""
+timeout = 30
+
+[[hooks]]
+event = "PostToolUseFailure"
+matcher = ""
+command = "\"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/log-failures.sh\""
+timeout = 30
+
+[[hooks]]
+event = "PreCompact"
+matcher = ""
+command = "\"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/pre-compact-handoff.sh\""
+timeout = 5
+
+[[hooks]]
+event = "SessionStart"
+matcher = ""
+command = "\"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/session-reset.sh\""
+timeout = 3
+
+[[hooks]]
+event = "PostCompact"
+matcher = ""
+command = "\"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/post-compact-resume.sh\""
+timeout = 10
+
+[[hooks]]
+event = "Stop"
+matcher = ""
+command = "bash -c '\"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/ai-verdict.py\" | \"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/log-stop-verdict.sh\"'"
+timeout = 20
+
+[[hooks]]
+event = "SubagentStart"
+matcher = ""
+command = "\"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/track-subagent.sh\""
+timeout = 3
+
+[[hooks]]
+event = "SubagentStop"
+matcher = ""
+command = "\"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/track-subagent.sh\""
+timeout = 3

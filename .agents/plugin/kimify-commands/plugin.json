@@ -1,0 +1,22 @@
+{
+  "name": "kimify-commands",
+  "version": "0.1.0",
+  "description": "Kimify slash commands as Kimi CLI plugin tools. Exposes every .agents/commands/*.md file as an agent-callable tool.",
+  "tools": [
+    {
+      "name": "kimify_command",
+      "description": "Run a Kimify slash command by name. Available commands: audit, brief, clear, competitive-intel, debt-map, drift-detect, handoff, launch, note, onboard, playbook, proposal, release, report, retro, review, standup, start, sync, system-audit, unstick, wrap-up. Reads the corresponding .agents/commands/<name>.md file and returns its procedure.",
+      "command": ["python3", "kimify-cmd.py"],
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Command name, e.g. start, sync, wrap-up, audit"
+          }
+        },
+        "required": ["name"]
+      }
+    }
+  ]
+}
