@@ -33,10 +33,15 @@ Always read `.agents/memory.md` before taking action.
   - `debt-collector` — Tracks tech debt. Catalogues shortcuts, suggests when to pay them down
   - `onboarding-sherpa` — Learns a new codebase fast. Architecture maps, key-file identification
   - `archaeologist` — Excavates why code exists. Git blame + context reconstruction
+  - `code-reviewer` — Senior fullstack review. Security, performance, architecture, best practices
+  - `ui-engineer` — Frontend specialist. React, Vue, CSS, accessibility, design systems
+  - `backend-architect` — TypeScript backend. APIs, databases, Bun, microservices, auth
+  - `python-engineer` — Python backend. FastAPI, Django, SQLAlchemy, uv, asyncio
 - **Commands** (`.agents/commands/`): Workflow rituals and utilities
 - **Hooks** (`.agents/hooks/`): Deterministic safety enforcement (logging, verification)
 - **Logs** (`.agents/logs/`): Audit trail + incident log — auto-populated by hooks
 - **Skills** (`.agents/skills/`): Domain knowledge, loaded on demand
+- **Tech Skills** (`.agents/skills-tech/`): Development tools, research workflows, shell automations
 
 ## Memory Architecture (6 Tiers)
 1. **memory.md** — Active session context (what you're doing now)
@@ -59,7 +64,7 @@ All agents can invoke system commands. Read `.agents/command-index.md` for the f
 | You need... | Check first | Then |
 |---|---|---|
 | What am I doing right now? | `memory.md` → Now | Task Board → Today |
-| How to do a procedure | `.agents/commands/` or `.agents/skills/` | CLAUDE.md |
+| How to do a procedure | `.agents/commands/` or `.agents/skills/` | KIMIFY.md or SETUP.md |
 | A fact or learned rule | `knowledge-base.md` | Agent memory |
 | What happened on a specific day | `Daily Notes/MMDDYY.md` | Audit trail |
 | What went wrong before | `knowledge-base.md` → Hard Rules | Agent memory → Known Patterns |

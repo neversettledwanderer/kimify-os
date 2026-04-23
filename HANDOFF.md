@@ -1,5 +1,8 @@
 # Kimify port — handoff
 
+> **ARCHIVED — Reference Only**
+> This document is retained as a historical reference for the Claudify-to-Kimify port. For current operating instructions, see `KIMIFY.md` and `SETUP.md`.
+
 Handoff doc for finishing the Claudify → Kimi CLI port. Three tasks remain. Each is self-contained with the design, the code to write, and a verification step. Work through them in Kimi CLI in order.
 
 ## Context (read first)

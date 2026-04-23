@@ -8,7 +8,7 @@ agent:
   system_prompt_path: ./system.md
   when_to_use: >
     Default Kimify agent. Opinionated operating system for knowledge work —
-    memory, rituals, quality gates, and 9 specialist subagents.
+    memory, rituals, quality gates, and 13 specialist subagents.
   tools:
     - kimi_cli.tools.agent:Agent
     - kimi_cli.tools.ask_user:AskUserQuestion
@@ -35,6 +35,12 @@ agent:
     auditor:
       path: ../agents/auditor/agent.yaml
       description: Self-improving quality gate. Reviews output for contradictions, regressions, and systemic gaps. Proposes SOP revisions.
+    backend-architect:
+      path: ../agents/backend-architect/agent.yaml
+      description: TypeScript backend specialist — API design, database integration, Bun runtime, microservices, auth, and performance optimization.
+    code-reviewer:
+      path: ../agents/code-reviewer/agent.yaml
+      description: Senior fullstack code reviewer — comprehensive review across security, performance, architecture, and best practices before deployment.
     debt-collector:
       path: ../agents/debt-collector/agent.yaml
       description: Technical debt tracker — scans for TODOs, hacks, deprecated patterns. Maintains a ranked inventory with effort and impact.
@@ -47,12 +53,18 @@ agent:
     pr-ghostwriter:
       path: ../agents/pr-ghostwriter/agent.yaml
       description: Writes PR descriptions, commit messages, and changelogs from diffs. Specific, review-ready docs.
+    python-engineer:
+      path: ../agents/python-engineer/agent.yaml
+      description: Python backend specialist — FastAPI, Django, SQLAlchemy, asyncio, uv, and modern Python tooling.
     rubber-duck:
       path: ../agents/rubber-duck/agent.yaml
       description: Socratic thinking partner — asks precise questions to surface hidden assumptions and clarify requirements.
     unsticker:
       path: ../agents/unsticker/agent.yaml
       description: Root-cause analyst — diagnoses why work is stuck and prescribes the fastest unblocking path.
+    ui-engineer:
+      path: ../agents/ui-engineer/agent.yaml
+      description: Frontend and UI specialist — React, Vue, CSS, accessibility, design systems, component architecture, and modern build tools.
     yak-shave-detector:
       path: ../agents/yak-shave-detector/agent.yaml
       description: Scope creep monitor — catches drift from the original goal. Blunt, fast sanity check.

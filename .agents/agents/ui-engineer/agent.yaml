@@ -1,0 +1,20 @@
+version: 1
+agent:
+  name: ui-engineer
+  system_prompt_path: ./system.md
+  when_to_use: >
+    Frontend and UI specialist. Invoke when creating, modifying, or reviewing
+    frontend code, UI components, responsive layouts, design systems, or
+    accessibility implementations. Covers React, Vue, Angular, CSS/Tailwind,
+    state management, and modern build tools. Not for backend logic — purely
+    client-side and presentation-layer work.
+  tools:
+    - kimi_cli.tools.file:ReadFile
+    - kimi_cli.tools.file:Grep
+    - kimi_cli.tools.file:Glob
+    - kimi_cli.tools.file:WriteFile
+    - kimi_cli.tools.file:StrReplaceFile
+    - kimi_cli.tools.shell:Shell
+    - kimi_cli.tools.web:SearchWeb
+    - kimi_cli.tools.web:FetchURL
+  model: kimi-k2

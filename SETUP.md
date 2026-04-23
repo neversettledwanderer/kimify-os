@@ -1,6 +1,6 @@
 # Kimify — setup
 
-Kimify is the Kimi CLI port of Claudify. Same operating system (memory, rituals, 9 specialist agents, safety hooks, skill library), rebuilt to run on Kimi CLI using Kimi 2.6.
+Kimify is the Kimi CLI port of Claudify. Same operating system (memory, rituals, 13 specialist agents, safety hooks, skill library), rebuilt to run on Kimi CLI using Kimi 2.6.
 
 ## 1. Install Kimi CLI and jq
 
@@ -56,7 +56,21 @@ The hooks auto-detect the project dir via `$KIMI_PROJECT_DIR → $CLAUDE_PROJECT
 export KIMI_PROJECT_DIR="$(pwd)"   # add to shell profile or direnv
 ```
 
-## 5. Launch with the Kimify root agent
+## 5. Add the tech skills root (optional but recommended)
+
+The new `.agents/skills-tech/` collection contains development and automation skills. To make them available to the agent, add this to `~/.local/share/kimi/config.toml`:
+
+```toml
+[[skill_roots]]
+path = "${KIMI_PROJECT_DIR}/.agents/skills-tech"
+```
+
+Or launch with:
+```bash
+kimi --skill-root .agents/skills-tech --agent .agents/kimify/agent.yaml
+```
+
+## 6. Launch with the Kimify root agent
 
 ```bash
 kimi --agent .agents/kimify/agent.yaml
@@ -64,7 +78,7 @@ kimi --agent .agents/kimify/agent.yaml
 
 The root agent will read `.agents/memory.md`, `.agents/knowledge-base.md`, and `KIMIFY.md` on startup, then wait for your first prompt. Type `/start` to kick off the daily ritual.
 
-## 6. Install the Kimify Commands plugin (optional)
+## 7. Install the Kimify Commands plugin (optional)
 
 Kimify's slash commands (`/start`, `/sync`, `/wrap-up`, etc.) can be exposed to the AI agent as callable plugin tools, and to your shell as aliases.
 
@@ -98,12 +112,18 @@ Add the `eval` line to your shell profile (`.zshrc`, `.bashrc`) to persist the a
 
 ## What's in the box
 
-- **9 specialist subagents** under `.agents/agents/*/` (each as an `agent.yaml` + `system.md` pair).
+- **13 specialist subagents** under `.agents/agents/*/` (each as an `agent.yaml` + `system.md` pair):
+  - Original 9: `archaeologist`, `auditor`, `debt-collector`, `error-whisperer`, `onboarding-sherpa`, `pr-ghostwriter`, `rubber-duck`, `unsticker`, `yak-shave-detector`
+  - Added from Claude port: `code-reviewer`, `ui-engineer`, `backend-architect`, `python-engineer`
 - **21 instruction-style commands** under `.agents/commands/*.md`. These are not executable — the root agent reads and follows them when you type `/start`, `/sync`, `/clear`, `/wrap-up`, `/audit`, `/onboard`, `/review`, `/retro`, etc.
 - **9 safety hooks** under `.agents/hooks/*.sh`: bash guard, pre-write backup, completeness gate, change/failure/verdict logging, pre-compact handoff, post-compact resume, session reset.
 - **1,728 domain skills** across 31 categories under `.agents/skills/`. Loaded on demand.
+- **15 tech skills** under `.agents/skills-tech/` — development tools, research workflows, and shell-based automations (GitHub, Slack, Notion). See `.agents/skills-tech/README.md` for setup.
 - **State files**: `.agents/memory.md`, `.agents/knowledge-base.md`, `.agents/knowledge-nominations.md`, `.agents/command-index.md`.
+- **Root agent** (`.agents/kimify/`): The top-level agent definition launched via `kimi --agent .agents/kimify/agent.yaml`.
+- **Scripts** (`.agents/scripts/`): Utility scripts for model remapping and shell alias generation.
 - **Root docs**: `KIMIFY.md` (main instructions), `Task Board.md`, `Scratchpad.md`, `Daily Notes/`.
+- **Future**: `SAAS-AUTOMATIONS-CATALOG.md` — 67 MCP-dependent SaaS integrations catalogued for future implementation.
 
 ## What changed vs. Claudify
 

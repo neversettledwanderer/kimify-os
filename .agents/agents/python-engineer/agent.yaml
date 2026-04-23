@@ -1,0 +1,19 @@
+version: 1
+agent:
+  name: python-engineer
+  system_prompt_path: ./system.md
+  when_to_use: >
+    Python backend specialist. Invoke for Python backend development — FastAPI,
+    Django, Flask APIs, database integration with SQLAlchemy, microservices,
+    background tasks, authentication systems, and performance optimization using
+    modern tooling like uv. Not for TypeScript/JavaScript or frontend work.
+  tools:
+    - kimi_cli.tools.file:ReadFile
+    - kimi_cli.tools.file:Grep
+    - kimi_cli.tools.file:Glob
+    - kimi_cli.tools.file:WriteFile
+    - kimi_cli.tools.file:StrReplaceFile
+    - kimi_cli.tools.shell:Shell
+    - kimi_cli.tools.web:SearchWeb
+    - kimi_cli.tools.web:FetchURL
+  model: kimi-k2
