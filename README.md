@@ -15,6 +15,8 @@ If you've used [Claudify](https://github.com/MoonshotAI/kimi-cli) on Claude Code
 
 ## Quick start
 
+> **On Windows?** Run this inside WSL2 (Ubuntu) — the hooks are bash scripts and don't work natively on Windows. See [SETUP.md → Platform support](SETUP.md#platform-support).
+
 ```bash
 # 1. Install Kimi CLI and dependencies
 pip install kimi-cli kimi-agent-sdk

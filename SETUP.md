@@ -2,6 +2,14 @@
 
 Kimify is the Kimi CLI port of Claudify. Same operating system (memory, rituals, 13 specialist agents, safety hooks, skill library), rebuilt to run on Kimi CLI using Kimi 2.6.
 
+## Platform support
+
+Kimify is built for macOS and Linux. The 11 safety hooks are bash scripts and depend on `jq`, so they don't run natively on Windows.
+
+**On Windows, use WSL2.** Install Ubuntu (or another Linux distro) via WSL2, then follow this guide inside the Linux shell — `pip install kimi-cli`, `apt-get install jq`, clone the repo to a WSL-side path (e.g. `/home/you/kimify-os`), and launch Kimi from there. Avoid putting the project under `/mnt/c/...` — file I/O across the Windows mount is much slower and the hooks read/write a lot.
+
+Git Bash or MSYS2 might mostly work but you'll hit edge cases (CRLF line endings breaking script execution, path translation when Kimi passes args to hooks, missing `jq`). Not recommended.
+
 ## 1. Install Kimi CLI and jq
 
 ```bash
