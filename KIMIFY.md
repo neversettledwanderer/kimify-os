@@ -79,7 +79,7 @@ Sessions have finite context. Heavy operations consume it fast.
 - `SessionStart(compact)` hook restores context after compaction
 - `SessionStart(user)` hook resets stale gate files on every fresh session
 
-**Completeness gates (PreToolUse Write|Edit — hard blocks):**
+**Completeness gates (PreToolUse Write|Edit|MultiEdit — hard blocks):**
 - **knowledge-base.md**: Every entry needs `[Source:]` provenance, max 200 lines, no TBD/TODO
 - **memory.md**: Max 100 lines (Write only)
 - **kimi-config.toml**: Must be valid TOML (broken config breaks all hooks once merged into `~/.local/share/kimi/config.toml`)

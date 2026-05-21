@@ -170,8 +170,11 @@ if echo "$COMMAND" | grep -qE 'git\s+checkout\s+\.'; then
   log_incident "MEDIUM" "WARNING: git checkout . discards changes → $COMMAND"
 fi
 
-# Writing to files outside project directory
-if echo "$COMMAND" | grep -qE '>\s*/' | grep -qvE ">\s*$PROJECT_DIR"; then
+# Writing to files outside project directory. Keep this as a warning only: the
+# guard should surface risky redirections without blocking legitimate commands.
+if [[ "$COMMAND" =~ \>[[:space:]]*/ ]] \
+  && [[ "$COMMAND" != *"> $PROJECT_DIR"* ]] \
+  && [[ "$COMMAND" != *">$PROJECT_DIR"* ]]; then
   log_incident "MEDIUM" "WARNING: write outside project dir → $COMMAND"
 fi
 

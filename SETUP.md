@@ -50,7 +50,7 @@ default_model = "kimi-k2"
 
 ## 3. Merge the Kimify hooks into your Kimi config
 
-Open `~/.local/share/kimi/config.toml` and paste the entire contents of `kimi-config.toml` (in this project root) into it. The file contains a nine-entry `[[hooks]]` block wired to every script under `.agents/hooks/`.
+Open `~/.local/share/kimi/config.toml` and paste the entire contents of `kimi-config.toml` (in this project root) into it. The file contains an 11-entry `[[hooks]]` block wired to the safety and lifecycle scripts under `.agents/hooks/`.
 
 If your Kimi config already has a `hooks` array, append Kimify's entries — don't overwrite.
 
@@ -123,8 +123,8 @@ Add the `eval` line to your shell profile (`.zshrc`, `.bashrc`) to persist the a
 - **13 specialist subagents** under `.agents/agents/*/` (each as an `agent.yaml` + `system.md` pair):
   - Original 9: `archaeologist`, `auditor`, `debt-collector`, `error-whisperer`, `onboarding-sherpa`, `pr-ghostwriter`, `rubber-duck`, `unsticker`, `yak-shave-detector`
   - Added from Claude port: `code-reviewer`, `ui-engineer`, `backend-architect`, `python-engineer`
-- **21 instruction-style commands** under `.agents/commands/*.md`. These are not executable — the root agent reads and follows them when you type `/start`, `/sync`, `/clear`, `/wrap-up`, `/audit`, `/onboard`, `/review`, `/retro`, etc.
-- **9 safety hooks** under `.agents/hooks/*.sh`: bash guard, pre-write backup, completeness gate, change/failure/verdict logging, pre-compact handoff, post-compact resume, session reset.
+- **22 instruction-style commands** under `.agents/commands/*.md`. These are not executable — the root agent reads and follows them when you type `/start`, `/sync`, `/clear`, `/wrap-up`, `/audit`, `/onboard`, `/review`, `/retro`, etc.
+- **11 safety hooks** under `.agents/hooks/*.sh`: bash guard, pre-write backup, completeness gate, change/failure/verdict logging, pre-compact handoff, post-compact resume, session reset, and subagent tracking.
 - **1,728 domain skills** across 31 categories under `.agents/skills/`. Loaded on demand.
 - **15 tech skills** under `.agents/skills-tech/` — development tools, research workflows, and shell-based automations (GitHub, Slack, Notion). See `.agents/skills-tech/README.md` for setup.
 - **State files**: `.agents/memory.md`, `.agents/knowledge-base.md`, `.agents/knowledge-nominations.md`, `.agents/command-index.md`.

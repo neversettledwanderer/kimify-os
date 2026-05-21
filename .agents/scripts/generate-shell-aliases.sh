@@ -18,6 +18,8 @@ echo "# Kimify shell aliases — generated from $CMD_DIR"
 for cmd_file in "$CMD_DIR"/*.md; do
   [ -f "$cmd_file" ] || continue
   name=$(basename "$cmd_file" .md)
-  # Use single-quoted alias body so $cmd_file expands at alias definition time
-  printf "alias 'kimi-%s'='kimi -p \"\$(cat %s)\"'\n" "$name" "$cmd_file"
+  # Quote the generated alias body so project directories with spaces (for
+  # example, "Git Repos") still work when the alias is evaluated.
+  alias_value="kimi -p \"\$(cat \"$cmd_file\")\""
+  printf "alias 'kimi-%s'=%q\n" "$name" "$alias_value"
 done

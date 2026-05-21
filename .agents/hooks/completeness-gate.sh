@@ -1,6 +1,6 @@
 #!/bin/bash
 PROJECT_DIR="${KIMI_PROJECT_DIR:-${CLAUDE_PROJECT_DIR:-$(pwd)}}"
-# PreToolUse completeness gate for Write|Edit tools.
+# PreToolUse completeness gate for Write|Edit|MultiEdit tools.
 # Uses structured JSON output: exit 0 + JSON stdout for both allow and deny.
 #
 # Validates content completeness for critical system files before allowing writes.
@@ -22,14 +22,26 @@ mkdir -p "$LOG_DIR"
 # Skip if no file path
 [ -z "$FILE_PATH" ] && exit 0
 
-# Get content based on tool type
-if [ "$TOOL" = "Write" ]; then
-  CONTENT=$(echo "$INPUT" | jq -r '.tool_input.content // empty')
-elif [ "$TOOL" = "Edit" ] || [ "$TOOL" = "MultiEdit" ]; then
-  CONTENT=$(echo "$INPUT" | jq -r '.tool_input.new_string // empty')
-else
-  exit 0
-fi
+# Get content based on tool type. MultiEdit stores replacements in an edits
+# array, so validate every new_string; otherwise an incomplete marker or secret
+# in a multi-edit can bypass the gate entirely.
+case "$TOOL" in
+  Write)
+    CONTENT=$(echo "$INPUT" | jq -r '.tool_input.content // empty')
+    ;;
+  Edit)
+    CONTENT=$(echo "$INPUT" | jq -r '.tool_input.new_string // empty')
+    ;;
+  MultiEdit)
+    CONTENT=$(echo "$INPUT" | jq -r '[.tool_input.edits[]?.new_string // empty] | join("\n")')
+    ;;
+  NotebookEdit)
+    CONTENT=$(echo "$INPUT" | jq -r '.tool_input.new_string // .tool_input.new_cell_source // .tool_input.source // empty')
+    ;;
+  *)
+    exit 0
+    ;;
+esac
 
 # Skip if no content to validate
 [ -z "$CONTENT" ] && exit 0
@@ -172,7 +184,13 @@ case "$RELATIVE_PATH" in
 try:
     import tomllib
 except ImportError:
-    import tomli as tomllib
+    try:
+        import tomli as tomllib
+    except ImportError:
+        # Python <3.11 without tomli cannot validate TOML. Fail open instead
+        # of blocking every config edit on systems that otherwise meet the
+        # documented Kimify dependency set.
+        sys.exit(0)
 tomllib.loads(sys.stdin.read())" 2>/dev/null; then
         block_high "$RELATIVE_PATH" "kimi-config.toml would be invalid TOML. Syntax error will break ALL hooks once merged into ~/.local/share/kimi/config.toml." "Validate TOML syntax: check array-of-tables brackets ([[hooks]]), string quoting, and newline separation between entries. Use Edit instead of Write to make targeted changes."
       fi
