@@ -6,8 +6,8 @@
 #
 # Event mapping from Claudify (Claude Code) to Kimify (Kimi CLI):
 #   PreToolUse(Bash)                → PreToolUse, matcher="^Bash$"
-#   PreToolUse(Write|Edit|Notebook) → PreToolUse, matcher="^(Write|Edit|NotebookEdit)$"
-#   PostToolUse(Write|Edit|Notebook)→ PostToolUse, matcher=same
+#   PreToolUse(Write|Edit|MultiEdit|Notebook) → PreToolUse, matcher="^(Write|Edit|MultiEdit|NotebookEdit)$"
+#   PostToolUse(Write|Edit|MultiEdit|Notebook)→ PostToolUse, matcher=same
 #   PostToolUseFailure(*)           → PostToolUseFailure (no matcher = matches all)
 #   PreCompact(auto)                → PreCompact
 #   SessionStart(user)              → SessionStart
@@ -30,19 +30,19 @@ timeout = 30
 
 [[hooks]]
 event = "PreToolUse"
-matcher = "^(Write|Edit|NotebookEdit)$"
+matcher = "^(Write|Edit|MultiEdit|NotebookEdit)$"
 command = "\"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/backup-before-write.sh\""
 timeout = 30
 
 [[hooks]]
 event = "PreToolUse"
-matcher = "^(Write|Edit|NotebookEdit)$"
+matcher = "^(Write|Edit|MultiEdit|NotebookEdit)$"
 command = "\"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/completeness-gate.sh\""
 timeout = 30
 
 [[hooks]]
 event = "PostToolUse"
-matcher = "^(Write|Edit|NotebookEdit)$"
+matcher = "^(Write|Edit|MultiEdit|NotebookEdit)$"
 command = "\"${KIMI_PROJECT_DIR:-$(pwd)}/.agents/hooks/log-changes.sh\""
 timeout = 30
 

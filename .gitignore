@@ -10,6 +10,7 @@ Daily Notes/
 *.swp
 *.swo
 *~
+.claude/settings.local.json
 .idea/
 .vscode/
 

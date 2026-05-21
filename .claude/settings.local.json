@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash([ -f \"/d/Git Repos/kimify-os/.agents/agents/$agent/agent.yaml\" ])",
-      "Bash([ -f \"/d/Git Repos/kimify-os/.agents/agents/$agent/system.md\" ])",
-      "Bash([ -f \"/d/Git Repos/kimify-os/.agents/agents/$agent/bash-allow.txt\" ])"
-    ]
-  }
-}
