@@ -27,5 +27,5 @@ export interface PresetStyle {
 export interface AIProvider {
   id: string;
   name: string;
-  processImage: (image: File, prompt: string, options?: any) => Promise<string>;
+  processImage: (image: File, prompt: string, options?: Record<string, unknown>) => Promise<string>;
 }

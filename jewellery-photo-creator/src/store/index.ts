@@ -77,7 +77,7 @@ export const useAppStore = create<AppState>((set, get) => ({
           history: [historyItem, ...state.currentJob.history],
         },
       }));
-    } catch (error) {
+    } catch {
       set((state) => ({
         currentJob: {
           ...state.currentJob,

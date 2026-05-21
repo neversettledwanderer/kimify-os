@@ -22,6 +22,7 @@ export function PromptInput() {
   };
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLocalPrompt(currentJob.prompt);
   }, [currentJob.prompt]);
 
